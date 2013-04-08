@@ -2,6 +2,9 @@ package com.wmendez.adbovertcp;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -14,13 +17,10 @@ public class ADBActivity extends Activity {
 
     Toast toast;
     int duration = Toast.LENGTH_LONG;
-    String[] enableADB = {"setprop service.adb.tcp.port 5555",
-            "stop adbd",
-            "start adbd"};
-    private String[] disableADB = new String[]{"setprop service.adb.tcp.port -1",
-            "stop adbd",
-            "start adbd"};
+    String[] enableADB = {"setprop service.adb.tcp.port 5555", "stop adbd", "start adbd"};
+    private String[] disableADB = new String[]{"setprop service.adb.tcp.port -1", "stop adbd", "start adbd"};
     private Switch button;
+    private AlarmManager alarmManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,12 @@ public class ADBActivity extends Activity {
             toast.show();
         }
     };
+
+    private void setTimedADB() {
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 10000, PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(), 0));
+    }
 
 
 }

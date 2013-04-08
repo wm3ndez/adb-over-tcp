@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:text="@string/switch_button_label"
         android:layout_gravity="right"
-        android:padding="8dp"/>
+        android:padding="8dp"
+        style="@style/AppTheme"/>
 </LinearLayout>
 
