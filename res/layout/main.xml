@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/main_action_title"
-        style="@style/appTitles"
-        />
+        style="@style/appTitles" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dip"
-        android:background="?android:attr/listDivider"/>
+        android:background="?android:attr/listDivider" />
 
 
     <Switch
@@ -24,6 +23,26 @@
         android:text="@string/switch_button_label"
         android:layout_gravity="right"
         android:padding="8dp"
-        style="@style/AppTheme"/>
+        style="@style/AppTheme" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ip_address_title"
+        style="@style/appTitles" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/ip_address"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:padding="8dp"
+        android:textSize="16dp"
+        android:textStyle="bold" />
 </LinearLayout>
 

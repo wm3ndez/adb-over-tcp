@@ -3,4 +3,19 @@
     <string name="app_name">ADB Over Network</string>
     <string name="switch_button_label">Status</string>
     <string name="main_action_title">ADB TCP Status</string>
+    <string name="ip_address_title">IP Address</string>
+    <string name="get_tcp_port_command">getprop service.adb.tcp.port</string>
+    <string name="get_ipaddress_command">getprop dhcp.wlan0.ipaddress</string>
+
+    <array name="enable_tcp_commands">
+        <item>setprop service.adb.tcp.port 5555</item>
+        <item>stop adbd</item>
+        <item>start adbd</item>
+    </array>
+
+    <array name="disable_tcp_commands">
+        <item>setprop service.adb.tcp.port -1</item>
+        <item>stop adbd</item>
+        <item>start adbd</item>
+    </array>
 </resources>

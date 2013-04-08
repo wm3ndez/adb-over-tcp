@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.wmendez.adbovertcp.Utils.Commands.execCommandsAsSU;
@@ -17,8 +18,6 @@ public class ADBActivity extends Activity {
 
     Toast toast;
     int duration = Toast.LENGTH_LONG;
-    String[] enableADB = {"setprop service.adb.tcp.port 5555", "stop adbd", "start adbd"};
-    private String[] disableADB = new String[]{"setprop service.adb.tcp.port -1", "stop adbd", "start adbd"};
     private Switch button;
     private AlarmManager alarmManager;
 
@@ -31,7 +30,25 @@ public class ADBActivity extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         button.setOnCheckedChangeListener(changeListener);
+        setElements();
+
+    }
+
+    private void setElements() {
         setButtonStatus();
+        setIpAddress();
+    }
+
+    private void setIpAddress() {
+        String ip;
+        try {
+            ip = execSingleCommand(getString(R.string.get_ipaddress_command)).replace("\n", "");
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return;
+        }
+        TextView tv = (TextView) findViewById(R.id.ip_address);
+        tv.setText(ip);
     }
 
     private void setButtonStatus() {
@@ -41,11 +58,11 @@ public class ADBActivity extends Activity {
     private boolean getADBStatus() {
         String prop = null;
         try {
-            prop = execSingleCommand("getprop service.adb.tcp.port").replace("\n", "");
+            prop = execSingleCommand(getString(R.string.get_tcp_port_command)).replace("\n", "");
         } catch (RuntimeException e) {
             Toast.makeText(getApplicationContext(), "Could not get adb.tcp.port state", duration);
         }
-        return prop != null && Integer.parseInt(prop) != -1;
+        return prop != null && !prop.equals("") && Integer.parseInt(prop) != -1;
     }
 
     private CompoundButton.OnCheckedChangeListener changeListener = new CompoundButton.OnCheckedChangeListener() {
@@ -54,12 +71,12 @@ public class ADBActivity extends Activity {
             if (isChecked == getADBStatus())
                 return;
             if (isChecked) {
-                if (execCommandsAsSU(enableADB))
+                if (execCommandsAsSU(getResources().getStringArray(R.array.enable_tcp_commands)))
                     toast = Toast.makeText(getApplicationContext(), "Enabled ADB over TCP", duration);
                 else
                     toast = Toast.makeText(getApplicationContext(), "Could not enable ADB over TCP", duration);
             } else {
-                if (execCommandsAsSU(disableADB))
+                if (execCommandsAsSU(getResources().getStringArray(R.array.disable_tcp_commands)))
                     toast = Toast.makeText(getApplicationContext(), "Disabled ADB over TCP", duration);
                 else
                     toast = Toast.makeText(getApplicationContext(), "Could not disable ADB over TCP", duration);
